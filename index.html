@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MyRakitan Real Order</title>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script type="text/javascript">
+        (function() {
+            emailjs.init("I4mnY6BB3kbfGmryB");
+        })();
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #e4e2e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            border : 1px solid #007bff;
+            border-style: solid;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        #gap{
+            margin-bottom: 17px;
+        }
+
+        #top-gap {
+            margin-top: 10px;
+        }
+        
+        #hidden_computer{
+            margin-bottom: 17px;
+        }
+
+        .form-profile {
+            margin-bottom: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-hidden {
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #003369;
+        }
+
+        button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #003369;
+        }
+
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        #status-msg {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+    </head>
+    <body>
+    <div class="container">
+        <h2>MyRakitan Real Order</h2>
+        <p class="subtitle">Isi data di bawah ini untuk memesan</p>
+        <form id="form-pesanan">
+            <div class="form-profile">
+                <label>Profil Pelanggan</label>
+                <input type="text" name="cus_name" placeholder="Nama Pelanggan" required>
+            </div>
+
+            <div id="gap">
+            <div class="form-profile">
+                <label></label>
+                <input type="des" name="cus_description" placeholder="Deskripsi Pelanggan" required>
+                <div id="top-gap"><input type="email" name="cus_email" placeholder="Email" required></div>
+            </div>
+            </div>
+
+            <div class="form-group">
+                <label>Budget ($)</label>
+                <input type="number" name="cus_budget" value="0" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="opsi_rakitan">Opsi Rakitan</label>
+                <select id="opsi_rakitan" name="opsi_rakitan" required>
+                    <option value="" disabled selected>pilih opsi rakit</option>
+                    <option value="Rakit PC">Rakit PC</option>
+                    <option value="Rakit PC Lebih Dari 1">Rakit PC Lebih Dari 1</option>
+                    <option value="Upgrade PC">Upgrade PC</option>
+                </select>
+            </div>
+
+            <div class="form-hidden" id="hidden_computer" style="display: none;">
+                <label>Jenis Rakitan</label>
+                <select id="jenis_pc" name="jenis_pc" required>
+                    <option value="" disabled selected>pilih jenis rakitan</option>
+                    <option value="Office PC">Office PC (fokus ke efisiensi untuk pekerjaan sehari hari)</option>
+                    <option value="Multimedia PC">Multimedia PC (fokus untuk mengolah video, foto, audio dan desain)</option>
+                    <option value="Gaming PC">Gaming PC (fokus gaming dengan fps dan grafik yang baik)</option>
+                    <option value="VR Gaming PC">VR Gaming PC (fokus gaming aplikasi virtual reality dengan lancar)</option>
+                    <option value="Workstation PC">Workstation PC (fokus performa untuk beban kerja komputasi berat)</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="upgrade_pc" style="display: none;">
+                <textarea type="des" id="spec_lama" name="spec_lama" rows="3" placeholder="Detail Spesifikasi Lama"></textarea>
+                <input type="text" id="keluhan" name="keluhan" placeholder="Keluhan"></input>
+            </div>
+
+            <div class="form-group" id="rakit_banyak" style="display: none;">
+                <input type="number" id="jumlah" name="jumlah_pc" value="" min="1" step="1" placeholder="Jumlah PC">
+            </div>
+
+            <div class="form-group">
+                <label>Keiginan Khusus</label>
+                <div class="form-profile">
+                <textarea name="h_requirement" rows="3" placeholder="Keinginan Hardware" required></textarea>
+                </div>
+                <textarea name="s_requirement" rows="3" placeholder="Keinginan Software/Game" required></textarea>
+            </div>
+
+            <button type="submit" id="btn-kirim">Kirim Pesanan</button>
+            <div id="status-msg"></div>
+        </form>
+    </div>
+    <script>
+        const formPesanan = document.getElementById('form-pesanan');
+        const btnKirim = document.getElementById('btn-kirim');
+        const statusMsg = document.getElementById('status-msg');
+        const serviceOption = document.getElementById('opsi_rakitan');
+        const ComputerNoteGroup = document.getElementById('hidden_computer');
+        const ComputerNoteInput = document.getElementById('jenis_pc');
+        const UpgradeNoteGroup = document.getElementById('upgrade_pc');
+        const UpNoteInput = document.getElementById('spec_lama');
+        const GradeNoteInput = document.getElementById('keluhan');
+        const RakitNoteGroup = document.getElementById('rakit_banyak');
+        const RakitNoteInput = document.getElementById('jumlah');
+
+        serviceOption.addEventListener('change', function() {
+    const selectedValue = serviceOption.value;
+    ComputerNoteGroup.style.display = 'none';
+    ComputerNoteInput.required = false;
+    ComputerNoteInput.value = "";
+
+    UpgradeNoteGroup.style.display = 'none';
+    UpNoteInput.required = false;
+    GradeNoteInput.required = false; 
+    UpNoteInput.value = '';
+    GradeNoteInput.value = '';
+
+    RakitNoteGroup.style.display = 'none';
+    RakitNoteInput.required = false;
+    RakitNoteInput.value = "";
+
+    if (selectedValue !== "") {
+        ComputerNoteGroup.style.display = 'block';
+        ComputerNoteInput.required = true;
+    }
+    else {
+        
+    }
+
+    if (selectedValue === "Upgrade PC") {
+        UpgradeNoteGroup.style.display = 'block';
+        UpNoteInput.required = true;
+        GradeNoteInput.required = true;
+    }
+
+    if (selectedValue === "Rakit PC Lebih Dari 1") {
+        RakitNoteGroup.style.display = 'block';
+        RakitNoteInput.required = true;
+    }
+});
+
+        formPesanan.addEventListener('submit', function(e) {
+            e.preventDefault();
+            btnKirim.innerText = 'Mengirim Pesanan...';
+            btnKirim.disabled = true;
+            statusMsg.innerText = '';
+            emailjs.sendForm('service_mqt3khg', 'template_j053ucl', this)
+                .then(function() {
+                    statusMsg.style.color = 'green';
+                    statusMsg.innerText = '✅ Pesanan berhasil dikirim ke email!';
+                    btnKirim.innerText = 'Kirim Pesanan';
+                    if (ComputerNoteGroup) ComputerNoteGroup.style.display = 'none';
+                    if (UpgradeNoteGroup) UpgradeNoteGroup.style.display = 'none';
+                    if (RakitNoteGroup) RakitNoteGroup.style.display = 'none';
+                    btnKirim.disabled = false;
+                    formPesanan.reset();
+                }, function(error) {
+                    statusMsg.style.color = 'red';
+                    statusMsg.innerText = '❌ Gagal mengirim pesanan. Silakan coba lagi.';
+                    console.error('EmailJS Error:', error);
+                    btnKirim.innerText = 'Kirim Pesanan';
+                    btnKirim.disabled = false;
+                });
+        });
+    </script>
+    </body>
+</html>
